@@ -19,6 +19,7 @@ public:
 
 class Decorator : public Widget 
 {
+
 public:
 
     Decorator (Widget * widget_) : widget (widget_) {}
@@ -27,6 +28,12 @@ public:
     {
         widget->draw();
     }
+    
+//    ~Decorator()
+//    {
+//        std::cout << __PRETTY_FUNCTION__<<std::endl;
+//        delete widget;  widget=nullptr;
+//    }
 
 protected:
     Widget * widget;
@@ -62,6 +69,7 @@ public:
 template <typename T>
 class StaticDecorator : public T
 {
+
 public:
     StaticDecorator(Widget * widget_) : T(widget_)
     {}
@@ -71,12 +79,21 @@ public:
         T::draw();
         std::cout<<"Drawing: "<<__PRETTY_FUNCTION__<<std::endl;
     }
+    
+/*    ~StaticDecorator()
+    {
+        std::cout << __PRETTY_FUNCTION__<<std::endl;
+        ~T();
+    }
+*/
 };
 
 
 int main()
 {
     Widget * wid = new StaticDecorator<Decorator>(new FrameDecorator(new ScrollBarDecorator(new Window())));
-    
+        
     wid->draw();
+    
+    delete wid;
 }
